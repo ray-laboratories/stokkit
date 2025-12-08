@@ -1,6 +1,11 @@
 import Aurelia from 'aurelia';
-import { MyApp } from './my-app';
+import MainApp from "./main-app/main-app";
+import { RouterConfiguration} from "@aurelia/router";
 
 Aurelia
-  .app(MyApp)
-  .start();
+	.register(RouterConfiguration.customize({
+		useUrlFragmentHash: false,
+		historyStrategy: 'push',
+	}))
+	.app(MainApp)
+	.start();
