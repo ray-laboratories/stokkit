@@ -30,7 +30,6 @@ func (g GarmentMemCache) Save(ctx context.Context, garment stock.Garment) (stock
 			return stock.Garment{}, err
 		}
 		garment.ID = newID
-		return garment, nil
 	}
 	err := g.memCache.Update(ctx, garment.ID, garment)
 	if err != nil {

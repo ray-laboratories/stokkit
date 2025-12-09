@@ -1,12 +1,14 @@
 package stock
 
 import (
-	"github.com/gin-gonic/gin"
+	"fmt"
 	"net/http"
 	stockApp "stokkit/application/stock"
 	stockTypes "stokkit/domain/stock"
 	"stokkit/routes"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
 )
 
 func SetupStockRoutes(router *gin.RouterGroup, svc *stockApp.Service) {
@@ -17,7 +19,7 @@ func SetupStockRoutes(router *gin.RouterGroup, svc *stockApp.Service) {
 			return
 		}
 		c.JSON(http.StatusOK, routes.NewResponse(garments))
-		return
+		fmt.Printf("%+v\n", garments)
 	})
 
 	router.GET("/stock/:id", func(c *gin.Context) {
@@ -32,7 +34,6 @@ func SetupStockRoutes(router *gin.RouterGroup, svc *stockApp.Service) {
 			return
 		}
 		c.JSON(http.StatusOK, routes.NewResponse(garment))
-		return
 	})
 
 	router.POST("/stock", func(c *gin.Context) {
@@ -49,7 +50,7 @@ func SetupStockRoutes(router *gin.RouterGroup, svc *stockApp.Service) {
 			return
 		}
 		c.JSON(http.StatusOK, routes.NewResponse(garment))
-		return
+		fmt.Printf("%+v", garment)
 	})
 
 	router.POST("/stock/:id", func(c *gin.Context) {
@@ -72,6 +73,19 @@ func SetupStockRoutes(router *gin.RouterGroup, svc *stockApp.Service) {
 			return
 		}
 		c.JSON(http.StatusOK, routes.NewResponse(garment))
-		return
+	})
+
+	router.DELETE("/stock/:id", func(c *gin.Context) {
+		id, err := strconv.Atoi(c.Param("id"))
+		if err != nil {
+			c.JSON(http.StatusBadRequest, routes.NewResponseFromError(err))
+			return
+		}
+		err = svc.Delete(c.Request.Context(), id)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, routes.NewResponseFromError(err))
+			return
+		}
+		c.JSON(http.StatusOK, routes.NewResponse(""))
 	})
 }

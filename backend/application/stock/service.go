@@ -3,6 +3,7 @@ package stock
 import (
 	"context"
 	"stokkit/domain/stock"
+	"strings"
 )
 
 type Service struct {
@@ -14,6 +15,8 @@ func NewService(garmentRepo GarmentReaderWriter) *Service {
 }
 
 func (svc *Service) Save(ctx context.Context, g stock.Garment) (stock.Garment, error) {
+	// Trim excess
+	g.Description = strings.Trim(g.Description, " \n\t")
 	return svc.garmentRepo.Save(ctx, g)
 }
 

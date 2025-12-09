@@ -12,3 +12,11 @@ type GarmentValues struct {
 	Style       string `json:"style"`
 	Description string `json:"description"`
 }
+
+func (g *Garment) SetKey(id int) {
+	g.ID = id
+}
+
+func (g *Garment) GetKey() int {
+	return g.ID
+}

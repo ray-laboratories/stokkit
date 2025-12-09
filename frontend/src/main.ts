@@ -1,11 +1,6 @@
-import Aurelia from 'aurelia';
-import MainApp from "./main-app/main-app";
-import { RouterConfiguration} from "@aurelia/router";
+import { bootstrapApplication } from '@angular/platform-browser';
+import { appConfig } from './app/app.config';
+import { App } from './app/app';
 
-Aurelia
-	.register(RouterConfiguration.customize({
-		useUrlFragmentHash: false,
-		historyStrategy: 'push',
-	}))
-	.app(MainApp)
-	.start();
+bootstrapApplication(App, appConfig)
+  .catch((err) => console.error(err));
